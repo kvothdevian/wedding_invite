@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BaaraatIcon, GaneshIcon, HaldiDivider, HaldiIcon, ReceptionIcon, SangeetIcon } from './components/EventIcons'
+import { HaldiDivider } from './components/EventIcons'
 
 const BASE = import.meta.env.BASE_URL
 const pngMap = {
@@ -11,10 +11,6 @@ const pngMap = {
   logo: `${BASE}event-cards/Logo.png`,
 }
 
-// Hero placeholder — semitransparent behind top. Toggleable.
-// Uses Logo.png as subtle watermark for client preview (opacity 0.07). Replace src with your hero photo when ready: e.g. "event-cards/hero-couple.jpg"
-const HERO_PLACEHOLDER_SRC = `${BASE}event-cards/Logo.png`
-
 const events = [
   {
     id: 'haldi',
@@ -24,7 +20,6 @@ const events = [
     date: '20 Nov 2026 — Friday',
     desc: 'Haldi, laughter & marigold showers. Wear yellows — let’s get messy.',
     tag: 'Day 1 • Morning',
-    Icon: HaldiIcon,
     png: pngMap.haldi,
   },
   {
@@ -35,7 +30,6 @@ const events = [
     date: '20 Nov 2026 — Friday',
     desc: 'Music, dance & winter bonfire over the Nagarkot ridge. Bring your moves.',
     tag: 'Day 1 • Evening',
-    Icon: SangeetIcon,
     png: pngMap.sangeet,
   },
   {
@@ -46,7 +40,6 @@ const events = [
     date: '21 Nov 2026 — Saturday',
     desc: 'The groom arrives — dhol, cheers & Himalayan views. Don’t be late.',
     tag: 'Day 2 • Morning',
-    Icon: BaaraatIcon,
     png: pngMap.baaraat,
   },
   {
@@ -57,7 +50,6 @@ const events = [
     date: '21 Nov 2026 — Saturday',
     desc: 'Pheras, feast & celebration under winter sky. Swagat chha — the big one.',
     tag: 'Day 2 • Afternoon',
-    Icon: ReceptionIcon,
     png: pngMap.reception,
   },
 ]
@@ -104,20 +96,9 @@ export default function App() {
   const target = new Date('2026-11-20T11:00:00+05:45').getTime()
   const { d, h, m, s } = useCountdown(target)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [usePng, setUsePng] = useState(true)
-  const [heroOn, setHeroOn] = useState(true)
   const [showSplash, setShowSplash] = useState(true)
   const [splashVisible, setSplashVisible] = useState(false)
   const [splashExiting, setSplashExiting] = useState(false)
-
-  useEffect(() => {
-    const a = localStorage.getItem('invite-usePng')
-    const b = localStorage.getItem('invite-hero')
-    if (a !== null) setUsePng(a === 'true')
-    if (b !== null) setHeroOn(b === 'true')
-  }, [])
-  useEffect(() => { localStorage.setItem('invite-usePng', String(usePng)) }, [usePng])
-  useEffect(() => { localStorage.setItem('invite-hero', String(heroOn)) }, [heroOn])
 
   // Splash — smooth enter + 2.5s hold (3.15s total with fade)
   useEffect(() => {
@@ -173,11 +154,7 @@ export default function App() {
               श्री गणेशाय नमः
             </p>
             <div className={`mt-3 transition-all will-change-transform ${splashVisible && !splashExiting ? 'opacity-100 scale-100 delay-[140ms] duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'opacity-0 scale-95'} ${splashExiting ? 'opacity-0 scale-95 duration-[400ms]' : ''}`}>
-              {usePng ? (
-                <img src={pngMap.logo} alt="Sneha and Akhil logo" className="w-[88px] h-[88px] md:w-[108px] md:h-[108px] object-contain mx-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.06)]" />
-              ) : (
-                <div className="w-[88px] h-[88px] rounded-full bg-slate text-snow grid place-items-center font-display text-[26px] mx-auto">S<span className="text-haldi"> &</span>A</div>
-              )}
+              <img src={pngMap.logo} alt="Sneha and Akhil logo" className="w-[88px] h-[88px] md:w-[108px] md:h-[108px] object-contain mx-auto drop-shadow-[0_4px_12px_rgba(0,0,0,0.06)]" />
             </div>
             <h1 className={`mt-5 font-display font-bold leading-[0.9] tracking-[-0.03em] text-[32px] md:text-[40px] text-ink will-change-transform transition-all ${splashVisible && !splashExiting ? 'opacity-100 translate-y-0 delay-[220ms] duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'opacity-0 translate-y-2'} ${splashExiting ? 'opacity-0 -translate-y-1 duration-[400ms]' : ''}`}>
               Sneha <span className="text-haldi font-light">&</span> Akhil
@@ -197,42 +174,11 @@ export default function App() {
           </div>
         </div>
       )}
-      {/* Dev Toggle Bar — easily switch back to previous SVG build */}
-      <div className="sticky top-0 z-[40] bg-slate text-snow border-b border-white/10">
-        <div className="mx-auto max-w-[1200px] px-3 md:px-6 h-8 flex items-center justify-between gap-2 text-[11px] font-mono">
-          <span className="tracking-[0.14em] hidden md:inline opacity-80">PREVIEW TOGGLES — for client show</span>
-          <span className="md:hidden tracking-[0.12em] opacity-80">TOGGLES</span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setUsePng(!usePng)}
-              className={`px-2.5 py-1 rounded-full border text-[11px] font-medium transition-colors ${usePng ? 'bg-haldi text-ink border-haldi' : 'bg-white/10 border-white/20 text-snow'}`}
-              aria-pressed={usePng}
-              title="Toggle PNG cards vs SVG icons (previous build)"
-            >
-              {usePng ? 'PNG Cards ✓' : 'SVG Icons'}
-            </button>
-            <button
-              onClick={() => setHeroOn(!heroOn)}
-              className={`px-2.5 py-1 rounded-full border text-[11px] font-medium transition-colors ${heroOn ? 'bg-ice text-ink border-ice' : 'bg-white/10 border-white/20 text-snow'}`}
-              aria-pressed={heroOn}
-              title="Toggle semitransparent hero placeholder"
-            >
-              {heroOn ? 'Hero image ON' : 'Hero off'}
-            </button>
-            <span className="hidden lg:inline opacity-50 ml-2">↩ Toggle back anytime • also: Copy App.prev.jsx → App.jsx</span>
-          </div>
-        </div>
-      </div>
-
       {/* Nav */}
-      <header className="sticky top-8 z-30 bg-paper/92 backdrop-blur border-b border-border">
+      <header className="sticky top-0 z-30 bg-paper/92 backdrop-blur border-b border-border">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6 h-[60px] flex items-center justify-between gap-4">
           <a href="#" className="flex items-center gap-2.5">
-            {usePng ? (
-              <img src={pngMap.logo} alt="Sneha & Akhil logo" className="w-8 h-8 md:w-9 md:h-9 object-contain rounded-full border border-border bg-white p-0.5" />
-            ) : (
-              <span className="w-8 h-8 rounded-full bg-slate text-snow grid place-items-center font-display text-[15px]">S<span className="text-haldi"> &</span>A</span>
-            )}
+            <img src={pngMap.logo} alt="Sneha & Akhil logo" className="w-8 h-8 md:w-9 md:h-9 object-contain rounded-full border border-border bg-white p-0.5" />
             <span className="font-display text-[19px] tracking-tight leading-none">Sneha <span className="text-haldi font-light">&</span> Akhil</span>
             <span className="hidden lg:inline font-mono text-[10px] tracking-[0.16em] text-muted ml-1">NOV 20–21 • NAGARKOT</span>
           </a>
@@ -259,36 +205,18 @@ export default function App() {
           <span>❈</span> WINTER MOUNTAIN SHAADI • HOTEL MYSTIC MOUNTAIN • NAGARKOT <span>❈</span>
         </div>
 
-        {/* HERO — full-bleed editorial with semitransparent placeholder behind */}
+        {/* HERO — full-bleed editorial */}
         <section className="relative bg-paper overflow-hidden">
-          {/* semitransparent placeholder hero image — toggleable for client preview */}
-          {heroOn && (
-            <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-              <img src={HERO_PLACEHOLDER_SRC} alt="" className="w-full h-full object-cover opacity-[0.07] mix-blend-multiply" />
-              {/* soft gradient to keep text readable */}
-              <div className="absolute inset-0 bg-gradient-to-b from-paper/30 via-paper/60 to-paper" />
-            </div>
-          )}
           <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, var(--color-slate) 1px, transparent 0)`, backgroundSize: '26px 26px' }} aria-hidden="true" />
           <div className="relative mx-auto max-w-[1200px] px-4 md:px-6">
-            {/* Ganesh — now PNG when usePng */}
+            {/* Ganesh */}
             <div className="flex flex-col items-center pt-10 md:pt-14">
-              {usePng ? (
-                <img src={pngMap.ganesh} alt="Shri Ganesh" className="w-[84px] h-[84px] md:w-[96px] md:h-[96px] object-contain drop-shadow-sm" />
-              ) : (
-                <GaneshIcon size={72} />
-              )}
+              <img src={pngMap.ganesh} alt="Shri Ganesh" className="w-[84px] h-[84px] md:w-[96px] md:h-[96px] object-contain drop-shadow-sm" />
               <p className="font-mono text-[10px] tracking-[0.2em] text-muted mt-2">श्री गणेशाय नमः • Shri Ganeshaya Namah</p>
               <p className="font-mono text-[10px] tracking-[0.14em] text-pine mt-1">— auspicious beginnings —</p>
             </div>
 
             <div className="text-center mt-6 md:mt-8 pb-8">
-              {/* Logo also as subtle hero watermark when heroOn + usePng */}
-              {usePng && heroOn && (
-                <div className="hidden md:flex justify-center mb-4 opacity-60" aria-hidden="true">
-                  <img src={pngMap.logo} alt="" className="w-[180px] h-auto object-contain opacity-40" />
-                </div>
-              )}
               <p className="font-mono text-[11px] tracking-[0.2em] text-pine font-medium">TOGETHER WITH OUR FAMILIES • हमारे परिवारों के साथ</p>
               <h1 className="mt-3 font-display font-bold leading-[0.88] tracking-[-0.03em]">
                 <span className="block text-[56px] md:text-[84px]">Sneha</span>
@@ -375,18 +303,14 @@ export default function App() {
                 <h2 className="font-display text-[32px] md:text-[40px] leading-none tracking-tight mt-1">Chaaron jashn, ek pahad</h2>
                 <p className="text-[14px] text-muted mt-2">All events at Hotel Mystic Mountain, Nagarkot — same ridge, no shuttles needed.</p>
               </div>
-              <p className="hidden md:block font-mono text-[11px] tracking-[0.12em] text-muted">— {usePng ? 'PNG cards from event-cards/' : 'SVG block-print'} —</p>
+              <p className="hidden md:block font-mono text-[11px] tracking-[0.12em] text-muted">— Hotel Mystic Mountain • Same venue —</p>
             </div>
 
             <div className="mt-8 border-y border-border bg-paper divide-y divide-border">
               {events.map((e) => (
                 <div key={e.id} className="grid grid-cols-[72px_1fr] md:grid-cols-[96px_1fr_160px] gap-0 items-stretch group hover:bg-snow/40 transition-colors">
                   <div className="flex items-center justify-center border-r border-border bg-snow/30 p-2">
-                    {usePng ? (
-                      <img src={e.png} alt={e.title} className="w-[64px] h-[64px] md:w-[72px] md:h-[72px] object-contain" loading="lazy" />
-                    ) : (
-                      <e.Icon size={32} />
-                    )}
+                    <img src={e.png} alt={e.title} className="w-[64px] h-[64px] md:w-[72px] md:h-[72px] object-contain" loading="lazy" />
                   </div>
                   <div className="px-5 md:px-7 py-6">
                     <p className="font-mono text-[10px] tracking-[0.16em] text-muted">{e.tag} • {e.label}</p>
