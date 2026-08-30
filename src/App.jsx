@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import { BaaraatIcon, GaneshIcon, HaldiDivider, HaldiIcon, ReceptionIcon, SangeetIcon } from './components/EventIcons'
 
+const BASE = import.meta.env.BASE_URL
 const pngMap = {
-  haldi: '/event-cards/Haldi.png',
-  sangeet: '/event-cards/Sangeet.png',
-  baaraat: '/event-cards/Baarat.png',
-  reception: '/event-cards/Weeding Reception.png',
-  ganesh: '/event-cards/Ganesh.png',
-  logo: '/event-cards/Logo.png',
+  haldi: `${BASE}event-cards/Haldi.png`,
+  sangeet: `${BASE}event-cards/Sangeet.png`,
+  baaraat: `${BASE}event-cards/Baarat.png`,
+  reception: `${BASE}event-cards/Weeding Reception.png`,
+  ganesh: `${BASE}event-cards/Ganesh.png`,
+  logo: `${BASE}event-cards/Logo.png`,
 }
 
 // Hero placeholder — semitransparent behind top. Toggleable.
-// Uses Logo.png as subtle watermark for client preview (opacity 0.07). Replace src with your hero photo when ready: e.g. "/hero-couple.jpg"
-const HERO_PLACEHOLDER_SRC = '/event-cards/Logo.png'
+// Uses Logo.png as subtle watermark for client preview (opacity 0.07). Replace src with your hero photo when ready: e.g. "event-cards/hero-couple.jpg"
+const HERO_PLACEHOLDER_SRC = `${BASE}event-cards/Logo.png`
 
 const events = [
   {
