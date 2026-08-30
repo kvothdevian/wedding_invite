@@ -1,0 +1,23 @@
+@import "./styles/theme.css";
+@import "tailwindcss";
+
+* { scrollbar-width: thin; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+::selection { background: oklch(0.83 0.14 85 / 0.35); }
+
+:focus-visible {
+  outline: 2px solid var(--color-sindoor);
+  outline-offset: 3px;
+}
